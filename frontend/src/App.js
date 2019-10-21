@@ -1,17 +1,22 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
+import _ from "lodash";
+import { Button } from "reactstrap";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viewCompleted: false,
-      // activeItem: {
-      //   title: "",
-      //   description: "",
-      //   completed: false
-      // },
+      activeEmp: {
+        first_name: "",
+        last_name: "",
+        primary_location: 0,
+        secondary_location: 0,
+        ploc: {},
+        sloc: {}
+      },
       employees: [],
       locations: [],
       modal: false
@@ -19,14 +24,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getEmployees();
     this.getLocations();
+    this.getEmployees();
   }
 
   getEmployees = () => {
     axios
       .get("http://localhost:8000/api/employees/")
-      .then(res => this.setState({ employees: res.data }))
+      .then(res => {
+        let employees = _.map(res.data, emp => {
+          let ploc = _.find(this.state.locations, loc => { return loc.id === emp.primary_location; });
+          let sloc = _.find(this.state.locations, loc => { return loc.id === emp.secondary_location; });
+          return { ...emp, ploc, sloc };
+        });
+        this.setState({ employees });
+      })
       .catch(err => console.log(err));
   };
 
@@ -39,22 +51,20 @@ class App extends Component {
 
   renderEmployees = () => {
     const { employees } = this.state;
-    console.log(employees);
-    return employees.map(emp => (
-      <li
-        key={emp.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span>
-          {emp.first_name} {emp.last_name}
-        </span>
-      </li>
+    return _.map(employees, emp => (
+      <tr key={emp.id}>
+        <td>{emp.first_name} {emp.last_name}</td>
+        <td>{emp.ploc.name}</td>
+        <td>{emp.sloc.name}</td>
+        <td><Button color="info" onClick={() => this.editEmployee(emp)}>Modify</Button></td>
+        <td><Button color="danger" onClick={() => this.deleteEmployee(emp)}>Remove</Button></td>
+      </tr>
     ));
   };
 
   renderLocations = () => {
     const { locations } = this.state;
-    return locations.map(loc => (
+    return _.map(locations, loc => (
       <li
         key={loc.id}
         className="list-group-item d-flex justify-content-between align-items-center"
@@ -66,57 +76,67 @@ class App extends Component {
     ));
   };
 
-  // toggle = () => {
-  //   this.setState({ modal: !this.state.modal });
-  // };
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
 
-  // handleSubmit = item => {
-  //   this.toggle();
-  //   if (item.id) {
-  //     axios
-  //       .put(`http://localhost:8000/api/todos/${item.id}/`, item)
-  //       .then(res => this.refreshList());
-  //     return;
-  //   }
-  //   axios
-  //     .post("http://localhost:8000/api/todos/", item)
-  //     .then(res => this.refreshList());
-  // };
+  handleSubmit = emp => {
+    this.toggle();
+    if (emp.id) {
+      axios
+        .put(`http://localhost:8000/api/employees/${emp.id}/`, emp)
+        .then(res => this.getEmployees());
+      return;
+    }
+    axios
+      .post("http://localhost:8000/api/employees/", emp)
+      .then(res => this.getEmployees());
+  };
 
-  // handleDelete = item => {
-  //   axios
-  //     .delete(`http://localhost:8000/api/todos/${item.id}`)
-  //     .then(res => this.refreshList());
-  // };
+  deleteEmployee = emp => {
+    axios
+      .delete(`http://localhost:8000/api/employees/${emp.id}`)
+      .then(res => this.getEmployees());
+  };
 
-  // createItem = () => {
-  //   const emp = { first_name: "", last_name: "", completed: false };
-  //   this.setState({ activeItem: item, modal: !this.state.modal });
-  // };
+  createEmployee = () => {
+    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1 };
+    this.setState({ activeEmp: emp, modal: !this.state.modal });
+  };
 
-  // editItem = item => {
-  //   this.setState({ activeItem: item, modal: !this.state.modal });
-  // };
+  editEmployee = emp => {
+    this.setState({ activeEmp: emp, modal: !this.state.modal });
+  };
 
   render() {
     return (
       <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
-        <div className="row ">
+        <h1 className="text-center my-4">Tantrum Sunless Tanning Scheduler</h1>
+        <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
-              <ul className="list-group list-group-flush">
-                {this.renderEmployees()}
-              </ul>
-              <ul className="list-group list-group-flush">
-                {this.renderLocations()}
-              </ul>
+              <table className="table">
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Primary Location</th>
+                    <th scope="col">Secondary Location</th>
+                    <th scope="col">Edit Employee</th>
+                    <th scope="col">Delete Employee</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.renderEmployees()}
+                </tbody>
+              </table>
+              <Button color="success" onClick={() => this.createEmployee()}>Create New Employee</Button>
             </div>
           </div>
         </div>
         {this.state.modal ? (
           <Modal
-            activeItem={this.state.activeItem}
+            activeEmp={this.state.activeEmp}
+            locations={this.state.locations}
             toggle={this.toggle}
             onSave={this.handleSubmit}
           />

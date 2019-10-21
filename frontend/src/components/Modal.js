@@ -15,31 +15,36 @@ export default class CustomModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeItem: this.props.activeItem
+            activeEmp: this.props.activeEmp
         };
     }
-    handleChange = e => {
+
+    handleTextChange = e => {
         let { name, value } = e.target;
-        if (e.target.type === "checkbox") {
-            value = e.target.checked;
-        }
-        const activeItem = { ...this.state.activeItem, [name]: value };
-        this.setState({ activeItem });
+        const activeEmp = { ...this.state.activeEmp, [name]: value };
+        this.setState({ activeEmp });
     };
+
+    handleSelectChange = e => {
+        let { name, value } = e.target;
+        const activeEmp = { ...this.state.activeEmp, [name]: +value };
+        this.setState({ activeEmp });
+    };
+
     render() {
         const { toggle, onSave } = this.props;
         return (
             <Modal isOpen={true} toggle={toggle}>
-                <ModalHeader toggle={toggle}> Employees </ModalHeader>
+                <ModalHeader toggle={toggle}>Employee Profile</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
                             <Label for="first-name">First Name</Label>
                             <Input
                                 type="text"
-                                name="first-name"
-                                value={this.state.activeItem.title}
-                                onChange={this.handleChange}
+                                name="first_name"
+                                value={this.state.activeEmp.first_name}
+                                onChange={this.handleTextChange}
                                 placeholder="Enter First Name"
                             />
                         </FormGroup>
@@ -47,18 +52,42 @@ export default class CustomModal extends Component {
                             <Label for="last-name">Last Name</Label>
                             <Input
                                 type="text"
-                                name="last-name"
-                                value={this.state.activeItem.title}
-                                onChange={this.handleChange}
+                                name="last_name"
+                                value={this.state.activeEmp.last_name}
+                                onChange={this.handleTextChange}
                                 placeholder="Enter Last Name"
                             />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="primary-location">Primary Location</Label>
+                            <Input type="select" name="primary_location" id="ploc-select"
+                                   value={this.state.activeEmp.primary_location}
+                                   onChange={this.handleSelectChange}>
+                                {this.props.locations.map((loc, key) => {
+                                    return (
+                                        <option key={key} value={loc.id}>{loc.name}</option>
+                                    );
+                                })}
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="secondary-location">Secondary Location</Label>
+                            <Input type="select" name="secondary_location" id="sloc-select"
+                                   value={this.state.activeEmp.secondary_location}
+                                   onChange={this.handleSelectChange}>
+                                {this.props.locations.map((loc, key) => {
+                                    return (
+                                        <option key={key} value={loc.id}>{loc.name}</option>
+                                    );
+                                })}
+                            </Input>
                         </FormGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
+                    <Button color="success" onClick={() => onSave(this.state.activeEmp)}>
                         Save
-              </Button>
+                    </Button>
                 </ModalFooter>
             </Modal>
         );
