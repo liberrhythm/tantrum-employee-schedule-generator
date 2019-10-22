@@ -13,6 +13,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=30)
     primary_location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='emp_primary_loc')
     secondary_location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='emp_secondary_loc')
+    color = models.CharField(max_length=7)
 
     def _str_(self):
         return self.first_name + ' ' + self.last_name

@@ -50,14 +50,17 @@ class App extends Component {
   };
 
   renderEmployees = () => {
+    // 
+
     const { employees } = this.state;
     return _.map(employees, emp => (
       <tr key={emp.id}>
         <td>{emp.first_name} {emp.last_name}</td>
         <td>{emp.ploc.name}</td>
         <td>{emp.sloc.name}</td>
-        <td><Button color="info" onClick={() => this.editEmployee(emp)}>Modify</Button></td>
-        <td><Button color="danger" onClick={() => this.deleteEmployee(emp)}>Remove</Button></td>
+        <td><h5><span className="badge" style={{ backgroundColor: emp.color }}>{emp.color}</span></h5></td>
+        <td><Button color="info" onClick={() => this.editEmployee(emp)}>Edit</Button></td>
+        <td><Button color="danger" onClick={() => this.deleteEmployee(emp)}>Delete</Button></td>
       </tr>
     ));
   };
@@ -93,19 +96,23 @@ class App extends Component {
       .then(res => this.getEmployees());
   };
 
+  createEmployee = () => {
+    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1, color: this.generateRandomColor() };
+    this.setState({ activeEmp: emp, modal: !this.state.modal });
+  };
+
+  generateRandomColor = () => {
+    return '#' + (Math.random()*0xFFFFFF<<0).toString(16);
+  }
+
+  editEmployee = emp => {
+    this.setState({ activeEmp: emp, modal: !this.state.modal });
+  };
+
   deleteEmployee = emp => {
     axios
       .delete(`http://localhost:8000/api/employees/${emp.id}`)
       .then(res => this.getEmployees());
-  };
-
-  createEmployee = () => {
-    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1 };
-    this.setState({ activeEmp: emp, modal: !this.state.modal });
-  };
-
-  editEmployee = emp => {
-    this.setState({ activeEmp: emp, modal: !this.state.modal });
   };
 
   render() {
@@ -121,8 +128,9 @@ class App extends Component {
                     <th scope="col">Name</th>
                     <th scope="col">Primary Location</th>
                     <th scope="col">Secondary Location</th>
-                    <th scope="col">Edit Employee</th>
-                    <th scope="col">Delete Employee</th>
+                    <th scope="col">Color</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
