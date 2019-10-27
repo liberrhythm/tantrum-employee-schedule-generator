@@ -98,14 +98,10 @@ class App extends Component {
   };
 
   createEmployee = () => {
-    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1, color: this.generateRandomColor(),
+    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1, color: "#000000",
                   monday_start: "00:00:00", monday_end: "00:00:00" };
     this.setState({ activeEmp: emp, modal: !this.state.modal });
   };
-
-  generateRandomColor = () => {
-    return '#' + (Math.random()*0xFFFFFF<<0).toString(16);
-  }
 
   editEmployee = emp => {
     this.setState({ activeEmp: emp, modal: !this.state.modal });

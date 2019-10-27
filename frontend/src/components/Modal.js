@@ -14,6 +14,7 @@ import {
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from "moment";
+import './Modal.css';
 
 export default class CustomModal extends Component {
     constructor(props) {
@@ -38,6 +39,15 @@ export default class CustomModal extends Component {
     handleTimeChange = (value, name) => {
         const activeEmp = { ...this.state.activeEmp, [name]: value.format('HH:mm:ss') };
         this.setState({ activeEmp });
+    };
+
+    handleColorChange = () => {
+        const activeEmp = { ...this.state.activeEmp, "color": this.generateRandomColor() };
+        this.setState({ activeEmp });
+    };
+
+    generateRandomColor = () => {
+        return '#' + (Math.random()*0xFFFFFF<<0).toString(16);
     };
 
     render() {
@@ -92,6 +102,13 @@ export default class CustomModal extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
+                            <Label for="color">Color</Label>
+                            <div className="modal_row">
+                                <h5><span className="badge" style={{ backgroundColor: this.state.activeEmp.color }}>{this.state.activeEmp.color}</span></h5>
+                                <Button color="secondary" size="sm" onClick={this.handleColorChange}>Generate Color Again</Button>
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <Label for="monday-start">Monday Start</Label>
@@ -108,9 +125,7 @@ export default class CustomModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => onSave(this.state.activeEmp)}>
-                        Save
-                    </Button>
+                    <Button color="success" onClick={() => onSave(this.state.activeEmp)}>Save</Button>
                 </ModalFooter>
             </Modal>
         );
