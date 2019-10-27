@@ -11,6 +11,10 @@ import {
     Label
 } from "reactstrap";
 
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
+import moment from "moment";
+
 export default class CustomModal extends Component {
     constructor(props) {
         super(props);
@@ -28,6 +32,11 @@ export default class CustomModal extends Component {
     handleSelectChange = e => {
         let { name, value } = e.target;
         const activeEmp = { ...this.state.activeEmp, [name]: +value };
+        this.setState({ activeEmp });
+    };
+
+    handleTimeChange = (value, name) => {
+        const activeEmp = { ...this.state.activeEmp, [name]: value.format('HH:mm:ss') };
         this.setState({ activeEmp });
     };
 
@@ -81,6 +90,20 @@ export default class CustomModal extends Component {
                                     );
                                 })}
                             </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <Label for="monday-start">Monday Start</Label>
+                                    <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "monday_start")}
+                                                defaultValue={moment(this.state.activeEmp.monday_start, ['hh:mm:ss a'])}/>
+                                </div>
+                                <div className="col-sm-6">
+                                    <Label for="monday-end">Monday End</Label>
+                                    <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "monday_end")}
+                                                defaultValue={moment(this.state.activeEmp.monday_end, ['hh:mm:ss a'])}/>
+                                </div>
+                            </div> 
                         </FormGroup>
                     </Form>
                 </ModalBody>

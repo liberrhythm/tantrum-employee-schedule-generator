@@ -3,6 +3,7 @@ import Modal from "./components/Modal";
 import axios from "axios";
 import _ from "lodash";
 import { Button } from "reactstrap";
+import moment from "moment";
 
 class App extends Component {
   constructor(props) {
@@ -50,8 +51,6 @@ class App extends Component {
   };
 
   renderEmployees = () => {
-    // 
-
     const { employees } = this.state;
     return _.map(employees, emp => (
       <tr key={emp.id}>
@@ -59,6 +58,8 @@ class App extends Component {
         <td>{emp.ploc.name}</td>
         <td>{emp.sloc.name}</td>
         <td><h5><span className="badge" style={{ backgroundColor: emp.color }}>{emp.color}</span></h5></td>
+        <td>{moment(emp.monday_start, ['hh:mm:ss a']).format('LT')}</td>
+        <td>{moment(emp.monday_end, ['hh:mm:ss a']).format('LT')}</td>
         <td><Button color="info" onClick={() => this.editEmployee(emp)}>Edit</Button></td>
         <td><Button color="danger" onClick={() => this.deleteEmployee(emp)}>Delete</Button></td>
       </tr>
@@ -97,7 +98,8 @@ class App extends Component {
   };
 
   createEmployee = () => {
-    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1, color: this.generateRandomColor() };
+    const emp = { first_name: "", last_name: "", primary_location: 1, secondary_location: 1, color: this.generateRandomColor(),
+                  monday_start: "00:00:00", monday_end: "00:00:00" };
     this.setState({ activeEmp: emp, modal: !this.state.modal });
   };
 
@@ -120,7 +122,7 @@ class App extends Component {
       <main className="content">
         <h1 className="text-center my-4">Tantrum Sunless Tanning Scheduler</h1>
         <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
+          <div className="col-md-8 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <table className="table">
                 <thead className="thead-dark">
@@ -129,6 +131,8 @@ class App extends Component {
                     <th scope="col">Primary Location</th>
                     <th scope="col">Secondary Location</th>
                     <th scope="col">Color</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>

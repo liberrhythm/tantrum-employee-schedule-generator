@@ -9,4 +9,4 @@ class LocationSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ('id', 'first_name', 'last_name', 'primary_location', 'secondary_location', 'color')
+        fields = ('id', 'first_name', 'last_name', 'primary_location', 'secondary_location', 'color', 'monday_start', 'monday_end')
