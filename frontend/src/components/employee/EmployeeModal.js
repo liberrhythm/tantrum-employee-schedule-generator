@@ -14,7 +14,7 @@ import {
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from "moment";
-import './Modal.css';
+import './EmployeeModal.css';
 
 export default class CustomModal extends Component {
     constructor(props) {
@@ -227,7 +227,8 @@ export default class CustomModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => onSave(this.state.activeEmp)}>Save</Button>
+                    <Button color="success" disabled={!this.state.activeEmp.first_name || !this.state.activeEmp.last_name || this.state.activeEmp.color === "#000000"} 
+                            onClick={() => onSave(this.state.activeEmp)}>Save</Button>
                 </ModalFooter>
             </Modal>
         );
