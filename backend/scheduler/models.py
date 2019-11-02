@@ -6,6 +6,10 @@ import datetime
 class Location(models.Model):
     name = models.CharField(max_length=50)
     is_salon = models.BooleanField(default=True)
+    weekday_open = models.TimeField(default='08:00:00')
+    weekday_close = models.TimeField(default='23:00:00')
+    weekend_open = models.TimeField(default='10:00:00')
+    weekend_close = models.TimeField(default='17:00:00')
 
     def _str_(self):
         return self.name

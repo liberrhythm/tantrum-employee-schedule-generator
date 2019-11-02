@@ -13,9 +13,7 @@ class EmployeeView extends Component {
         first_name: "",
         last_name: "",
         primary_location: 0,
-        secondary_location: 0,
-        ploc: {},
-        sloc: {}
+        secondary_location: 0
       },
       employees: [],
       locations: [],
@@ -32,12 +30,7 @@ class EmployeeView extends Component {
     axios
       .get("http://localhost:8000/api/employees/")
       .then(res => {
-        let employees = _.map(res.data, emp => {
-          let ploc = _.find(this.state.locations, loc => { return loc.id === emp.primary_location; });
-          let sloc = _.find(this.state.locations, loc => { return loc.id === emp.secondary_location; });
-          return { ...emp, ploc, sloc };
-        });
-        this.setState({ employees });
+        this.setState({ employees: res.data });
       })
       .catch(err => console.log(err));
   };
