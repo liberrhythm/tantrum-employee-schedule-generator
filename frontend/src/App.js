@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import EmployeeView from "./components/employee/EmployeeView";
+import CurrentScheduleView from "./components/schedule/CurrentScheduleView";
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +10,10 @@ class App extends Component {
 
   render() {
     return (
-      <EmployeeView />
+      <>
+        <EmployeeView />
+        <CurrentScheduleView />
+      </>
     );
   }
 }

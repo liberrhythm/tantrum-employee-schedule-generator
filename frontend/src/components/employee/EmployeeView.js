@@ -111,7 +111,7 @@ class EmployeeView extends Component {
       <main className="content">
         <h1 className="text-center my-4">Tantrum Sunless Tanning Scheduler</h1>
         <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
+          <div className="col-md-8 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <table className="table">
                 <thead className="thead-dark">
