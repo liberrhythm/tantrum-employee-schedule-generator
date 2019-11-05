@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import EmployeeView from "./components/employee/EmployeeView";
 import CurrentScheduleView from "./components/schedule/CurrentScheduleView";
+import LocationView from "./components/location/LocationView";
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class App extends Component {
     return (
       <>
         <EmployeeView />
+        <LocationView />
         <CurrentScheduleView />
       </>
     );

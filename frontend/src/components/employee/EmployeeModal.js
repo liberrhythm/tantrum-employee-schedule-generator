@@ -114,7 +114,7 @@ export default class CustomModal extends Component {
                         </FormGroup>
                         <div className="modal_row_2">
                             <FormGroup>
-                                <Label for="sun-start">Monday Start</Label>
+                                <Label for="monday-start">Monday Start</Label>
                                 <div className="timepicker">
                                     <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "monday_start")}
                                         defaultValue={moment(this.state.activeEmp.monday_start, ['hh:mm:ss a'])} />
