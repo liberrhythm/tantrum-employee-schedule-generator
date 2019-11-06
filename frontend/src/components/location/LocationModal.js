@@ -42,7 +42,34 @@ export default class CustomModal extends Component {
     };
 
     closeLocation = value => {
-
+        if(value === 'mon'){
+            const activeLoc = { ...this.state.activeLoc, mon_open: '00:00:00', mon_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
+        if(value === 'tue'){
+            const activeLoc = { ...this.state.activeLoc, tue_open: '00:00:00', tue_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
+        if(value === 'wed'){
+            const activeLoc = { ...this.state.activeLoc, wed_open: '00:00:00', wed_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
+        if(value === 'thu'){
+            const activeLoc = { ...this.state.activeLoc, thu_open: '00:00:00', thu_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
+        if(value === 'fri'){
+            const activeLoc = { ...this.state.activeLoc, fri_open: '00:00:00', fri_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
+        if(value === 'sat'){
+            const activeLoc = { ...this.state.activeLoc, sat_open: '00:00:00', sat_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
+        if(value === 'sun'){
+            const activeLoc = { ...this.state.activeLoc, sun_open: '00:00:00', sun_close: '00:00:00' };
+            this.setState({ activeLoc });
+        }
     };
     render() {
         const { toggle, onSave } = this.props;
