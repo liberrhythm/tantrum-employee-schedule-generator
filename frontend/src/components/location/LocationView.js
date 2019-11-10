@@ -53,7 +53,7 @@ class LocationView extends Component {
     }
     axios
       .post("http://localhost:8000/api/locations/", loc)
-      .then(res => this.Locations());
+      .then(res => this.getLocations());
   };
 
   createLocation = () => {
