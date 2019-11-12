@@ -3,6 +3,7 @@ import LocationModal from "./LocationModal";
 import axios from "axios";
 import _ from "lodash";
 import { Button } from "reactstrap";
+import moment from "moment";
 
 class LocationView extends Component {
   constructor(props) {
@@ -12,19 +13,19 @@ class LocationView extends Component {
       activeLoc: {
         name: "",
         mon_open: '08:00:00',
-        mon_close: '08:00:00',
+        mon_close: '23:00:00',
         tue_open: '08:00:00',
-        tue_close: '08:00:00',
+        tue_close: '23:00:00',
         wed_open: '08:00:00',
-        wed_close: '08:00:00',
+        wed_close: '23:00:00',
         thu_open: '08:00:00',
-        thu_close: '08:00:00',
+        thu_close: '23:00:00',
         fri_open: '08:00:00',
-        fri_close: '08:00:00',
-        sat_open: '08:00:00',
-        sat_close: '08:00:00',
-        sun_open: '08:00:00',
-        sun_close: '08:00:00'
+        fri_close: '23:00:00',
+        sat_open: '10:00:00',
+        sat_close: '17:00:00',
+        sun_open: '10:00:00',
+        sun_close: '17:00:00'
         
       },
       locations: [],
@@ -57,14 +58,23 @@ class LocationView extends Component {
   };
 
   createLocation = () => {
-    const loc = { name: "", 
-                  mon_open: '08:00:00', mon_close: '08:00:00',
-                  tue_open: '08:00:00', tue_close: '08:00:00',
-                  wed_open: '08:00:00', wed_close: '08:00:00',
-                  thu_open: '08:00:00',thu_close: '08:00:00',
-                  fri_open: '08:00:00', fri_close: '08:00:00',
-                  sat_open: '08:00:00', sat_close: '08:00:00',
-                  sun_open: '08:00:00', sun_close: '08:00:00'};
+    const loc = {
+      name: "",
+      mon_open: '08:00:00',
+      mon_close: '23:00:00',
+      tue_open: '08:00:00',
+      tue_close: '23:00:00',
+      wed_open: '08:00:00',
+      wed_close: '23:00:00',
+      thu_open: '08:00:00',
+      thu_close: '23:00:00',
+      fri_open: '08:00:00',
+      fri_close: '23:00:00',
+      sat_open: '10:00:00',
+      sat_close: '17:00:00',
+      sun_open: '10:00:00',
+      sun_close: '17:00:00'
+    };
     this.setState({ activeLoc: loc, modal: !this.state.modal });
   };
 
@@ -83,13 +93,13 @@ class LocationView extends Component {
     return _.map(locations, loc => (
       <tr key={loc.id}>
         <td>{loc.name}</td>
-        <td>{loc.mon_open} {loc.mon_close}</td>
-        <td>{loc.tue_open} {loc.tue_close}</td>
-        <td>{loc.wed_open} {loc.wed_close}</td>
-        <td>{loc.thu_open} {loc.thu_close}</td>
-        <td>{loc.fri_open} {loc.fri_close}</td>
-        <td>{loc.sat_open} {loc.sat_close}</td>
-        <td>{loc.sun_open} {loc.sun_close}</td>
+        <td>{moment(loc.mon_open, ['HH:mm:ss']).format('LT')} {moment(loc.mon_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.tue_open, ['HH:mm:ss']).format('LT')} {moment(loc.tue_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.wed_open, ['HH:mm:ss']).format('LT')} {moment(loc.wed_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.thu_open, ['HH:mm:ss']).format('LT')} {moment(loc.thu_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.fri_open, ['HH:mm:ss']).format('LT')} {moment(loc.fri_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.sat_open, ['HH:mm:ss']).format('LT')} {moment(loc.sat_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.sun_open, ['HH:mm:ss']).format('LT')} {moment(loc.sun_close, ['HH:mm:ss']).format('LT')}</td>
         <td><Button color="info" onClick={() => this.editLocation(loc)}>Edit</Button></td>
         <td><Button color="danger" onClick={() => this.deleteLocation(loc)}>Delete</Button></td>
       </tr>
