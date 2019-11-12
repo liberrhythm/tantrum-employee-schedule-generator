@@ -5,6 +5,7 @@ import Schedule from "./Schedule";
 import classnames from 'classnames';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import moment from "moment";
+import "./CurrentScheduleView.css";
 
 
 class CurrentScheduleView extends Component {
@@ -48,7 +49,6 @@ class CurrentScheduleView extends Component {
   }
 
   generateEmptySchedule = (loc) => {
-    console.log("generating empty schedule for " + loc);
     let emptySchedule = {
       monday: {}, tue: {}, wed: {}, thu: {}, fri: {}, sat: {}, sun: {}
     };
@@ -71,7 +71,6 @@ class CurrentScheduleView extends Component {
   }
 
   assignEmployee = (id, start, end, daySchedule) => {
-    console.log("assigning employee " + id);
     let startMoment = moment(start, ['HH:mm:ss']);
     let endMoment = moment(end, ['HH:mm:ss']);
     if (startMoment.isSame(endMoment)) return daySchedule;
@@ -87,7 +86,6 @@ class CurrentScheduleView extends Component {
   };
 
   generateSchedule = (loc) => {
-    console.log("generating scheduling for " + loc);
     let plocEmps = this.state.employees.filter(emp => emp.ploc.id === loc.id);
     let slocEmps = this.state.employees.filter(emp => emp.sloc.id === loc.id);
 
@@ -119,7 +117,6 @@ class CurrentScheduleView extends Component {
   };
 
   generateAllSchedules = () => {
-    console.log("generating all schedules");
     let schedules = this.state.locations.map(loc => {
       return this.generateSchedule(loc);
     });
@@ -134,7 +131,7 @@ class CurrentScheduleView extends Component {
     return _.map(locations, (loc, key) => (
       <NavItem>
         <NavLink
-          className={classnames({ active: this.state.activeTab === `${key + 1}` })}
+          className={classnames({ active: this.state.activeTab === `${key + 1}`, 'tabs': true })}
           onClick={() => this.toggle(`${key + 1}`)}
         >
           {loc.name}
