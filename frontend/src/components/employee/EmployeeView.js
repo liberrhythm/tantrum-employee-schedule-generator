@@ -109,7 +109,7 @@ class EmployeeView extends Component {
   render() {
     return (
       <main className="content">
-        <h1 className="text-center my-4">Tantrum Sunless Tanning Scheduler</h1>
+        <h1 className="text-center my-4">Employees</h1>
         <div className="row">
           <div className="col-md-8 col-sm-10 mx-auto p-0">
             <div className="card p-3">
