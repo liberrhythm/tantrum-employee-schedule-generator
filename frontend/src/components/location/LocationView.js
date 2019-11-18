@@ -12,8 +12,8 @@ class LocationView extends Component {
       viewCompleted: false,
       activeLoc: {
         name: "",
-        mon_open: '08:00:00',
-        mon_close: '23:00:00',
+        monday_open: '08:00:00',
+        monday_close: '23:00:00',
         tue_open: '08:00:00',
         tue_close: '23:00:00',
         wed_open: '08:00:00',
@@ -60,8 +60,8 @@ class LocationView extends Component {
   createLocation = () => {
     const loc = {
       name: "",
-      mon_open: '08:00:00',
-      mon_close: '23:00:00',
+      monday_open: '08:00:00',
+      monday_close: '23:00:00',
       tue_open: '08:00:00',
       tue_close: '23:00:00',
       wed_open: '08:00:00',
@@ -93,7 +93,7 @@ class LocationView extends Component {
     return _.map(locations, loc => (
       <tr key={loc.id}>
         <td>{loc.name}</td>
-        <td>{moment(loc.mon_open, ['HH:mm:ss']).format('LT')} {moment(loc.mon_close, ['HH:mm:ss']).format('LT')}</td>
+        <td>{moment(loc.monday_open, ['HH:mm:ss']).format('LT')} {moment(loc.monday_close, ['HH:mm:ss']).format('LT')}</td>
         <td>{moment(loc.tue_open, ['HH:mm:ss']).format('LT')} {moment(loc.tue_close, ['HH:mm:ss']).format('LT')}</td>
         <td>{moment(loc.wed_open, ['HH:mm:ss']).format('LT')} {moment(loc.wed_close, ['HH:mm:ss']).format('LT')}</td>
         <td>{moment(loc.thu_open, ['HH:mm:ss']).format('LT')} {moment(loc.thu_close, ['HH:mm:ss']).format('LT')}</td>

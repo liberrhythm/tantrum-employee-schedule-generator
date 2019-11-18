@@ -7,15 +7,33 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import moment from "moment";
 import "./CurrentScheduleView.css";
 
-
 class CurrentScheduleView extends Component {
   constructor(props) {
     super(props);
+
+    let curr = new Date();
+    let week = [];
+
+    for (let i = 1; i <= 7; i++) {
+      let first = curr.getDate() - curr.getDay() + i;
+      let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+      week.push(day);
+    }
+
     this.state = {
       employees: [],
       locations: [],
-      schedules: [],
-      activeTab: "1"
+      schedules: {},
+      activeTab: "1",
+      currentWeek: {
+        monday: week[0],
+        tue: week[1],
+        wed: week[2],
+        thu: week[3],
+        fri: week[4],
+        sat: week[5],
+        sun: week[6]
+      }
     };
   }
 
@@ -54,8 +72,8 @@ class CurrentScheduleView extends Component {
     };
 
     Object.keys(emptySchedule).forEach(key => {
-      let openTime = this.isWeekend(key) ? loc.weekend_open : loc.weekday_open;
-      let closeTime = this.isWeekend(key) ? loc.weekend_close : loc.weekday_close;
+      let openTime = loc[key + "_open"];
+      let closeTime = loc[key + "_close"];
       let openMoment = moment(openTime, ['HH:mm:ss']);
       let closeMoment = moment(closeTime, ['HH:mm:ss']);
       let dayObj = {};
@@ -116,12 +134,51 @@ class CurrentScheduleView extends Component {
     return { ...schedule, loc: loc.id };
   };
 
+  saveEmployeeAssignment = empAssign => {
+    if (empAssign.id) {
+      axios
+        .put(`http://localhost:8000/api/employee-assignments/${empAssign.id}/`, empAssign)
+        .then(res => console.log("updated employee assignment"));
+      return;
+    }
+    axios
+      .post("http://localhost:8000/api/employee-assignments/", empAssign)
+      .then(res => console.log("created employee assignment"));
+  };
+
+  saveDaySchedule = (day, location, daySchedule) => {
+    let formattedDay = this.state.currentWeek[day];
+    Object.keys(daySchedule).forEach(time => {
+      let empAssign = {
+        employee: daySchedule[time],
+        location,
+        start: formattedDay + " " + time
+      };
+
+      this.saveEmployeeAssignment(empAssign);
+    });
+  }
+
+  saveSchedule = (schedule) => {
+    let location = schedule.loc;
+    Object.keys(schedule).forEach(day => {
+      if (day !== "loc") {
+        this.saveDaySchedule(day, location, schedule[day]);
+      }
+    });
+  }
+
+  saveAllSchedules = () => {
+    let { schedules } = this.state;
+    Object.keys(schedules).forEach(loc => {
+      this.saveSchedule(schedules[loc]);
+    });
+  }
+
   generateAllSchedules = () => {
     let schedules = this.state.locations.map(loc => {
       return this.generateSchedule(loc);
     });
-
-    console.log(schedules);
 
     this.setState({ schedules });
   };
@@ -164,6 +221,8 @@ class CurrentScheduleView extends Component {
                 {this.renderTabContent()}
               </TabContent>
               <Button color="success" onClick={() => this.generateAllSchedules()}>Generate Schedule</Button>
+              <Button disabled={Object.keys(this.state.schedules).length === 0} color="info" 
+                      onClick={() => this.saveAllSchedules()}>Save Schedule</Button>
             </div>
           </div>
         </div>

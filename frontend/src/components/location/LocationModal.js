@@ -43,7 +43,7 @@ export default class CustomModal extends Component {
 
     closeLocation = value => {
         if(value === 'mon'){
-            const activeLoc = { ...this.state.activeLoc, mon_open: '00:00:00', mon_close: '00:00:00' };
+            const activeLoc = { ...this.state.activeLoc, monday_open: '00:00:00', monday_close: '00:00:00' };
             this.setState({ activeLoc });
         }
         else if(value === 'tue'){
@@ -91,17 +91,17 @@ export default class CustomModal extends Component {
                         </div>
                     <div className="modal_row_2">
                         <FormGroup>
-                            <Label for="mon_open">Monday Open</Label>
+                            <Label for="monday_open">Monday Open</Label>
                             <div className="timepicker">
-                                <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "mon_open")}
-                                    defaultValue={moment(this.state.activeLoc.mon_open, ['hh:mm:ss a'])} />
+                                <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "monday_open")}
+                                    defaultValue={moment(this.state.activeLoc.monday_open, ['hh:mm:ss a'])} />
                             </div>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="mon_close">Monday Close</Label>
+                            <Label for="monday_close">Monday Close</Label>
                             <div className="timepicker">
-                                <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "mon_close")}
-                                    defaultValue={moment(this.state.activeLoc.mon_close, ['hh:mm:ss a'])} />
+                                <TimePicker minuteStep={15} use12Hours={true} showSecond={false} onChange={(val) => this.handleTimeChange(val, "monday_close")}
+                                    defaultValue={moment(this.state.activeLoc.monday_close, ['hh:mm:ss a'])} />
                                 </div>
                              </FormGroup>
                         <FormGroup>

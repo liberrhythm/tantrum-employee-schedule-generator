@@ -1,15 +1,16 @@
 from django.contrib import admin
-from .models import Employee, Location
+from .models import Employee, Location, EmployeeAssignment
 
 # Register your models here.
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_salon', 'weekday_open', 'weekday_close', 'weekend_open', 'weekend_close')
+    list_display = ('name', 'is_salon')
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'primary_location', 'secondary_location', 'color', 
-                    'monday_start', 'monday_end', 'tue_start', 'tue_end', 'wed_start', 'wed_end',
-                    'thu_start', 'thu_end', 'fri_start', 'fri_end', 'sat_start', 'sat_end',
-                    'sun_start', 'sun_end')
+    list_display = ('first_name', 'last_name', 'primary_location', 'secondary_location', 'color')
+
+class EmployeeAssignmentAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'location', 'start')
 
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(EmployeeAssignment, EmployeeAssignmentAdmin)
