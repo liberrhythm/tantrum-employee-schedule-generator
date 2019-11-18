@@ -3,7 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import Schedule from "./Schedule";
 import classnames from 'classnames';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import moment from "moment";
 import "./CurrentScheduleView.css";
 
@@ -23,7 +23,8 @@ class CurrentScheduleView extends Component {
     this.state = {
       employees: [],
       locations: [],
-      schedules: {},
+      schedules: [],
+      generatedSchedules: [],
       activeTab: "1",
       currentWeek: {
         monday: week[0],
@@ -33,13 +34,19 @@ class CurrentScheduleView extends Component {
         fri: week[4],
         sat: week[5],
         sun: week[6]
-      }
+      },
+      currEmpAssigns: [],
+      currentScheduleExists: false,
+      loading: true,
+      generatedScheduleExists: false,
+      toast: <div></div>
     };
   }
 
   componentDidMount() {
     this.getLocations();
     this.getEmployees();
+    this.getCurrentSchedule();
   }
 
   getEmployees = () => {
@@ -61,10 +68,6 @@ class CurrentScheduleView extends Component {
   toggle = tab => {
     if (this.state.activeTab !== tab) this.setState({ activeTab: tab });
   };
-
-  isWeekend = (day) => {
-    return day === "sat" || day === "sun";
-  }
 
   generateEmptySchedule = (loc) => {
     let emptySchedule = {
@@ -103,7 +106,8 @@ class CurrentScheduleView extends Component {
     return daySchedule;
   };
 
-  generateSchedule = (loc) => {
+  generateSchedule = (locId) => {
+    let loc = this.state.locations[locId];
     let plocEmps = this.state.employees.filter(emp => emp.ploc.id === loc.id);
     let slocEmps = this.state.employees.filter(emp => emp.sloc.id === loc.id);
 
@@ -131,58 +135,98 @@ class CurrentScheduleView extends Component {
       schedule.sun = this.assignEmployee(slocEmp.id, slocEmp.sun_start, slocEmp.sun_end, schedule.sun);
     });
 
-    return { ...schedule, loc: loc.id };
+    let obj = { ...schedule, loc: loc.id };
+    let schedules = this.state.generatedSchedules;
+    schedules[locId] = obj;
+
+    this.setState({ generatedSchedules: schedules });
+    this.renderToast(loc.name, "generated");
   };
 
-  saveEmployeeAssignment = empAssign => {
+  updateEmployeeAssignment = empAssign => {
     if (empAssign.id) {
       axios
         .put(`http://localhost:8000/api/employee-assignments/${empAssign.id}/`, empAssign)
-        .then(res => console.log("updated employee assignment"));
+        .then();
       return;
     }
-    axios
-      .post("http://localhost:8000/api/employee-assignments/", empAssign)
-      .then(res => console.log("created employee assignment"));
   };
 
-  saveDaySchedule = (day, location, daySchedule) => {
+  getDayAssigns = (day, location, daySchedule) => {
     let formattedDay = this.state.currentWeek[day];
+    let requests = [];
     Object.keys(daySchedule).forEach(time => {
-      let empAssign = {
-        employee: daySchedule[time],
-        location,
-        start: formattedDay + " " + time
-      };
-
-      this.saveEmployeeAssignment(empAssign);
-    });
-  }
-
-  saveSchedule = (schedule) => {
-    let location = schedule.loc;
-    Object.keys(schedule).forEach(day => {
-      if (day !== "loc") {
-        this.saveDaySchedule(day, location, schedule[day]);
+      if (daySchedule[time] !== -1) {
+        let empAssign = {
+          employee: daySchedule[time],
+          location,
+          start: formattedDay + " " + time,
+          current: true
+        };
+        
+        requests.push(axios.post("http://localhost:8000/api/employee-assignments/", empAssign).catch(err => console.log(err)));
       }
     });
+
+    return requests;
   }
 
-  saveAllSchedules = () => {
-    let { schedules } = this.state;
-    Object.keys(schedules).forEach(loc => {
-      this.saveSchedule(schedules[loc]);
+  saveSchedule = (loc) => {
+    this.setState({ loading: true });
+    let schedule = this.state.generatedSchedules[loc];
+    let location = schedule.loc;
+    let requests = [];
+
+    Object.keys(schedule).forEach(day => {
+      if (day !== "loc") {
+        let newRequests = this.getDayAssigns(day, location, schedule[day])
+        requests.push(...newRequests);
+      }
+    });
+
+    axios.all(requests).then(res => {
+      this.setState({ loading: false });
+      this.getCurrentSchedule();
+      this.renderToast(this.state.locations[loc].name, "saved");
     });
   }
 
-  generateAllSchedules = () => {
-    let schedules = this.state.locations.map(loc => {
-      return this.generateSchedule(loc);
-    });
+  getCurrentSchedule = () => {
+    this.setState({ loading: true });
+    axios
+      .get("http://localhost:8000/api/current-schedule/")
+      .then(res => {
+        let allAssigns = res.data;
+        let schedules = [];
+        this.state.locations.forEach(loc => {
+          let filteredAssigns = allAssigns.filter(assign => loc.id === assign.location);
+          schedules.push(filteredAssigns);
+        });
 
-    this.setState({ schedules });
-  };
+        console.log(schedules);
 
+        this.setState({ 
+          schedules,
+          loading: false
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  toggleToast = () => { this.setState({ toast: <div></div> }) };
+
+  renderToast = (location, action) => {
+    let toast = (
+      <Toast onClose={() => this.setState({ toast: <div></div> })}>
+        <ToastHeader toggle={this.toggleToast} style={{ display: 'flex' }}>
+          <strong className="mr-auto">{location}</strong>
+        </ToastHeader>
+        <ToastBody>Schedule for location {action}</ToastBody>
+      </Toast>
+    );
+    this.setState({ toast });
+  }
+    
   renderTabs = () => {
     const { locations } = this.state;
     return _.map(locations, (loc, key) => (
@@ -203,6 +247,9 @@ class CurrentScheduleView extends Component {
       <TabPane tabId={`${key + 1}`}>
         <h3>{loc.name} </h3>
         <Schedule></Schedule>
+        <Button disabled={(this.state.schedules[loc.id] && this.state.schedules[loc.id].length > 0) || this.state.loading } 
+                color="success" onClick={() => this.generateSchedule(key)}>Generate Schedule</Button>
+        <Button color="info" onClick={() => this.saveSchedule(key)}>Save Schedule</Button>
       </TabPane>
     ));
   };
@@ -214,15 +261,13 @@ class CurrentScheduleView extends Component {
         <div className="row">
           <div className="col-md-10 col-sm-12 mx-auto p-0">
             <div className="card p-3">
+              {this.state.toast}
               <Nav tabs>
                 {this.renderTabs()}
               </Nav>
               <TabContent activeTab={this.state.activeTab}>
                 {this.renderTabContent()}
               </TabContent>
-              <Button color="success" onClick={() => this.generateAllSchedules()}>Generate Schedule</Button>
-              <Button disabled={Object.keys(this.state.schedules).length === 0} color="info" 
-                      onClick={() => this.saveAllSchedules()}>Save Schedule</Button>
             </div>
           </div>
         </div>

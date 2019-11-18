@@ -15,3 +15,7 @@ class LocationView(viewsets.ModelViewSet):
 class EmployeeAssignmentView(viewsets.ModelViewSet):
     serializer_class = EmployeeAssignmentSerializer
     queryset = EmployeeAssignment.objects.all()
+
+class CurrentEmployeeAssignmentView(viewsets.ModelViewSet):
+    serializer_class = EmployeeAssignmentSerializer
+    queryset = EmployeeAssignment.objects.filter(current=True)

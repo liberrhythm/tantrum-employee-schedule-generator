@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 router.register(r'employees', views.EmployeeView, 'employee')
 router.register(r'locations', views.LocationView, 'location')
 router.register(r'employee-assignments', views.EmployeeAssignmentView, 'employee-assignment')
+router.register(r'current-schedule', views.CurrentEmployeeAssignmentView, 'current-schedule')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
