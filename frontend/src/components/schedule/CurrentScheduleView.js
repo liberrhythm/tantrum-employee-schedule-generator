@@ -247,7 +247,7 @@ class CurrentScheduleView extends Component {
       <TabPane tabId={`${key + 1}`}>
         <h3>{loc.name} </h3>
         <Schedule></Schedule>
-        <Button disabled={(this.state.schedules[loc.id] && this.state.schedules[loc.id].length > 0) || this.state.loading } 
+        <Button disabled={(this.state.schedules[loc.id-1] && this.state.schedules[loc.id-1].length > 0) || this.state.loading } 
                 color="success" onClick={() => this.generateSchedule(key)}>Generate Schedule</Button>
         <Button color="info" onClick={() => this.saveSchedule(key)}>Save Schedule</Button>
       </TabPane>

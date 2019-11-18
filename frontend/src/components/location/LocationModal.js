@@ -20,7 +20,16 @@ export default class CustomModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeLoc: this.props.activeLoc
+            activeLoc: this.props.activeLoc,
+            btnsDisabled: {
+                'btn-mon': false,
+                'btn-tue': false,
+                'btn-wed': false,
+                'btn-thu': false,
+                'btn-fri': false,
+                'btn-sat': false,
+                'btn-sun': false
+            }
         };
     }
 
@@ -41,7 +50,7 @@ export default class CustomModal extends Component {
         this.setState({ activeLoc });
     };
 
-    closeLocation = value => {
+    closeLocation = (value, btn) => {
         if(value === 'mon'){
             const activeLoc = { ...this.state.activeLoc, monday_open: '00:00:00', monday_close: '00:00:00' };
             this.setState({ activeLoc });
@@ -70,6 +79,11 @@ export default class CustomModal extends Component {
             const activeLoc = { ...this.state.activeLoc, sun_open: '00:00:00', sun_close: '00:00:00' };
             this.setState({ activeLoc });
         }
+
+        let btnsDisabled = this.state.btnsDisabled;
+        btnsDisabled = { ...btnsDisabled, [btn]: true };
+
+        this.setState({ btnsDisabled });
     };
     render() {
         const { toggle, onSave } = this.props;
@@ -105,7 +119,7 @@ export default class CustomModal extends Component {
                                 </div>
                              </FormGroup>
                         <FormGroup>
-                            <Button color="danger" onClick={() => this.closeLocation('mon')}>Closed</Button>
+                        <Button disabled={this.state.btnsDisabled["btn-mon"]} color="danger" onClick={() => this.closeLocation('mon', 'btn-mon')}>Closed</Button>
                              </FormGroup>
                              </div>
                         <div className="modal_row_2">
@@ -124,7 +138,7 @@ export default class CustomModal extends Component {
                                     </div>
                                 </FormGroup>
                             <FormGroup>
-                                <Button color="danger" onClick={() => this.closeLocation('tue')}>Closed</Button>
+                            <Button disabled={this.state.btnsDisabled["btn-tue"]} color="danger" onClick={() => this.closeLocation('tue', 'btn-tue')}>Closed</Button>
                                 </FormGroup>
                                 </div>
                                     <div className="modal_row_2">
@@ -143,7 +157,7 @@ export default class CustomModal extends Component {
                                     </div>
                             </FormGroup>
                             <FormGroup>
-                                <Button color="danger" onClick={() => this.closeLocation('wed')}>Closed</Button>
+                            <Button disabled={this.state.btnsDisabled["btn-wed"]} color="danger" onClick={() => this.closeLocation('wed', 'btn-wed')}>Closed</Button>
                                 </FormGroup>
                             </div>
                                     <div className="modal_row_2">
@@ -162,7 +176,7 @@ export default class CustomModal extends Component {
                                     </div>
                             </FormGroup>
                             <FormGroup>
-                                <Button color="danger" onClick={() => this.closeLocation('thu')}>Closed</Button>
+                            <Button disabled={this.state.btnsDisabled["btn-thu"]} color="danger" onClick={() => this.closeLocation('thu', 'btn-thu')}>Closed</Button>
                                 </FormGroup>
                                 </div>
                                     <div className="modal_row_2">
@@ -181,7 +195,7 @@ export default class CustomModal extends Component {
                                 </div>
                             </FormGroup>
                             <FormGroup>
-                                <Button color="danger" onClick={() => this.closeLocation('fri')}>Closed</Button>
+                            <Button disabled={this.state.btnsDisabled["btn-fri"]} color="danger" onClick={() => this.closeLocation('fri', 'btn-fri')}>Closed</Button>
                                 </FormGroup>
                                 </div>
                                     <div className="modal_row_2">
@@ -200,7 +214,7 @@ export default class CustomModal extends Component {
                                 </div>
                             </FormGroup>
                             <FormGroup>
-                                <Button color="danger" onClick={() => this.closeLocation('sat')}>Closed</Button>
+                            <Button disabled={this.state.btnsDisabled["btn-sat"]} color="danger" onClick={() => this.closeLocation('sat', 'btn-sat')}>Closed</Button>
                                 </FormGroup>
                                 </div>
                                 <div className="modal_row_2">
@@ -219,7 +233,7 @@ export default class CustomModal extends Component {
                                 </div>
                             </FormGroup>
                             <FormGroup>
-                                <Button color="danger" onClick={() => this.closeLocation('sun')}>Closed</Button>
+                            <Button disabled={this.state.btnsDisabled["btn-sun"]} color="danger" onClick={() => this.closeLocation('sun', 'btn-sun')}>Closed</Button>
                                 </FormGroup>
                         </div>
                     </Form>
