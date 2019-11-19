@@ -46,8 +46,10 @@ export default class CustomModal extends Component {
     };
 
     handleTimeChange = (value, name) => {
-        const activeLoc = { ...this.state.activeLoc, [name]: value.format('HH:mm:ss') };
-        this.setState({ activeLoc });
+        if(value != null){
+            const activeLoc = { ...this.state.activeLoc, [name]: value.format('HH:mm:ss') };
+            this.setState({ activeLoc });
+        }
     };
 
     closeLocation = (value, btn) => {
