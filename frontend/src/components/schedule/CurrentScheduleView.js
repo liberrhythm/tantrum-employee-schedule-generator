@@ -203,8 +203,6 @@ class CurrentScheduleView extends Component {
           schedules.push(filteredAssigns);
         });
 
-        console.log(schedules);
-
         this.setState({ 
           schedules,
           loading: false
@@ -245,8 +243,8 @@ class CurrentScheduleView extends Component {
     const { locations } = this.state;
     return _.map(locations, (loc, key) => (
       <TabPane tabId={`${key + 1}`}>
-        <h3>{loc.name} </h3>
-        <Schedule></Schedule>
+        { this.state.schedules.length === 0 && <h5>Loading Current Schedule...</h5> }
+        { this.state.schedules.length > 0 && <Schedule schedule={this.state.schedules[key]} location={this.state.locations[key]} currentWeek={this.state.currentWeek}></Schedule> }
         <Button disabled={(this.state.schedules[loc.id-1] && this.state.schedules[loc.id-1].length > 0) || this.state.loading } 
                 color="success" onClick={() => this.generateSchedule(key)}>Generate Schedule</Button>
         <Button color="info" onClick={() => this.saveSchedule(key)}>Save Schedule</Button>
