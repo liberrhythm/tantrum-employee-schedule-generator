@@ -92,7 +92,7 @@ class Schedule extends Component {
     renderTableHeader() {
         let { formattedDays } = this.state;
         return formattedDays.map((day, key) => (
-            <th scope="col">{day} {moment(this.state.currentWeek[this.state.days[key]]).format('M/D')}</th>
+            <th scope="col">{day.substr(0, 3)} {moment(this.state.currentWeek[this.state.days[key]]).format('M/D')}</th>
         ));
     }
 
@@ -109,7 +109,7 @@ class Schedule extends Component {
         if (_.isEmpty(assignsByTime)) return;
         return _.map(assignsByTime, (timeArr, key) => (
             <tr>
-                <th scope="row">{key}</th>
+                <th scope="row">{moment(key, ['HH:mm:ss']).format('LT')}</th>
                 {this.renderTableData(timeArr)}
             </tr>
         ));
@@ -117,7 +117,7 @@ class Schedule extends Component {
 
     render() {
         return (
-            <table className="table table-bordered">
+            <table className="table table-bordered" style={{ margin: '1rem 0rem'}}>
                 <thead className="thead-dark">
                     <tr>
                         <th scope="col">Time</th>

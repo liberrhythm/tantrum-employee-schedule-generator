@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
 import Schedule from "./Schedule";
+import Legend from "./Legend";
 import classnames from 'classnames';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import moment from "moment";
@@ -243,11 +244,11 @@ class CurrentScheduleView extends Component {
     const { locations } = this.state;
     return _.map(locations, (loc, key) => (
       <TabPane tabId={`${key + 1}`}>
-        { this.state.schedules.length === 0 && <h5>Loading Current Schedule...</h5> }
-        { this.state.schedules.length > 0 && <Schedule schedule={this.state.schedules[key]} location={this.state.locations[key]} currentWeek={this.state.currentWeek}></Schedule> }
         <Button disabled={(this.state.schedules[loc.id-1] && this.state.schedules[loc.id-1].length > 0) || this.state.loading } 
-                color="success" onClick={() => this.generateSchedule(key)}>Generate Schedule</Button>
-        <Button color="info" onClick={() => this.saveSchedule(key)}>Save Schedule</Button>
+                color="success" style={{ marginTop: '0.5rem' }} onClick={() => this.generateSchedule(key)}>Generate Schedule</Button>
+        <Button color="info" style={{ marginTop: '0.5rem' }} onClick={() => this.saveSchedule(key)}>Save Schedule</Button>
+        { this.state.schedules.length === 0 && <h5 style={{ margin: '0.5rem' }}>Loading Current Schedule...</h5> }
+        { this.state.schedules.length > 0 && <Schedule schedule={this.state.schedules[key]} location={this.state.locations[key]} currentWeek={this.state.currentWeek}></Schedule> }
       </TabPane>
     ));
   };
@@ -257,7 +258,10 @@ class CurrentScheduleView extends Component {
       <main className="content">
         <h1 className="text-center my-4">Current Schedule</h1>
         <div className="row">
-          <div className="col-md-10 col-sm-12 mx-auto p-0">
+          <div className="col-md-2 col-sm-2 mx-auto p-0">
+            { this.state.employees.length > 0 && <Legend employees={this.state.employees} /> }
+          </div>
+          <div className="col-md-10 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               {this.state.toast}
               <Nav tabs>
