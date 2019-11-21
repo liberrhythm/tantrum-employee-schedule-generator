@@ -8,12 +8,14 @@ import * as serviceWorker from './serviceWorker';
 import EmployeeView from "./components/employee/EmployeeView";
 import LocationView from "./components/location/LocationView";
 import CalendarView from "./components/calendar/CalendarView";
+import Login from './components/login/login';
 
 const routing = (
   <Router>
     <div>
       <Switch>
         <Route exact path="/" component={App} />
+        <Route path="/login" component={Login} />
         <Route path="/employee" component={EmployeeView} />
         <Route path="/location" component={LocationView} />
         <Route path="/calendar" component={CalendarView} />

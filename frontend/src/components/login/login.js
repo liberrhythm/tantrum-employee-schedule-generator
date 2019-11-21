@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import './login.css';
-import { Link } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import axios from "axios";
 import _ from "lodash";
+import CurrentScheduleViewEmp from "../employeeView/CurrentScheduleViewEmp";
 
 function myFunction() {
   var x, text;
@@ -38,7 +39,8 @@ class Login extends Component {
       employees: [],
       modal: false,
       email: "",
-      password: ""
+      password: "",
+      authenticated: false
     };
   }
  
@@ -61,6 +63,16 @@ class Login extends Component {
       .catch(err => console.log(err));
   };
 
+  authenticateUser = e => {
+    this.state.employees.forEach(emp => {
+      if (emp.email === this.state.email && emp.password === this.state.password) 
+      {
+        this.setState({ authenticated: true });
+        console.log("correct details");
+      }
+    });
+  }
+
   render() {
     const { toggle, onSave } = this.props;
     return (
@@ -76,7 +88,7 @@ class Login extends Component {
               <Input
                                     type="text"
                                     name="email"
-                                    value={this.state.activeEmp.email}
+                                    value={this.state.email}
                                     onChange={this.handleTextChange}
                                     placeholder="Enter Email"
                                 />
@@ -85,16 +97,18 @@ class Login extends Component {
             <Label>Password</Label>
             <Input
                                     type="text"
-                                    name="email"
-                                    value={this.state.activeEmp.password}
+                                    name="password"
+                                    value={this.state.password}
                                     onChange={this.handleTextChange}
                                     placeholder="Enter Email"
                                 />
             </FormGroup>
-          <Button className = "btn-lg btn-dark btn-block" type="button" color="success" disabled={!this.state.activeEmp.email || !this.state.activeEmp.password} 
-                            onClick={() => onSave(this.state.activeEmp)}>Log In</Button>
+          <Button className = "btn-lg btn-dark btn-block" type="button" color="success" disabled={!this.state.email || !this.state.password} 
+                            onClick={this.authenticateUser}>Log In</Button>
+            { this.state.authenticated && <Redirect to="/" /> }
           
       </Form>
+
     );
   }
 }

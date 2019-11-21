@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Login from "./components/login/login";
+import CurrentScheduleView from "./components/employeeView/CurrentScheduleViewEmp";
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Login />
+        <CurrentScheduleView />
       </>
     );
   }
