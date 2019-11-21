@@ -7,6 +7,8 @@ import {Button} from "reactstrap"
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import NavBar from "../navbar/navbar";
 import axios from "axios";
+import EventsModal from "./EventsModal";
+
 
 const localizer = momentLocalizer(moment);
 
@@ -83,18 +85,43 @@ class CalendarView extends Component {
       name: 'React',
       events: [],
       active_event: {
-        event_date: new Date(), event_start: '00:00:00', event_end: '00:00:00'
-      }
+        title: "", event_start: new Date(), event_end: new Date()
+      },
+      modal: false
     };
   }
+
+  handleDateChange = (value, name) => {
+    const activeEvent = { ...this.state.activeEvent, [name]: value };
+    this.setState({ activeEvent });
+};
   
   componentDidMount() {
     this.getEvents();
   }
 
   createEvent = () => {
-    const eve = { event_date: new Date(), event_start: '00:00:00', event_end: '00:00:00' };
+    let eve = {
+      title: "", event_start: new Date(), event_end: new Date()
+    };
     this.setState({ active_event: eve, modal: !this.state.modal })
+  };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleSubmit = event => {
+    this.toggle();
+    if (event.id) {
+      axios
+        .put(`http://localhost:8000/api/events/${event.id}/`, event)
+        .then(res => this.getEvents());
+      return;
+    }
+    axios
+      .post("http://localhost:8000/api/events/", event)
+      .then(res => this.getEvents());
   };
 
   getEvents = () => {
@@ -129,6 +156,13 @@ class CalendarView extends Component {
             defaultDate={moment().toDate()}
             localizer={localizer}
           />
+          {this.state.modal ? (
+          <EventsModal
+            activeEvent={this.state.active_event}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+        ) : null}
         </div>
       </div>
     );
