@@ -7,6 +7,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import EmployeeView from "./components/employee/EmployeeView";
 import LocationView from "./components/location/LocationView";
+import RequestsView from "./components/requests/RequestsView";
 import NavBar from "./navbar"
 
 const routing = (
@@ -17,6 +18,7 @@ const routing = (
         <Route exact path="/" component={App} />
         <Route path="/employee" component={EmployeeView} />
         <Route path="/location" component={LocationView} />
+        <Route path="/requests" component={RequestsView} />
       </Switch>
     </div>
   </Router>

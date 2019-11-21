@@ -53,3 +53,9 @@ class EmployeeAssignment(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='empassign_loc')
     start = models.DateTimeField(default=now, blank=True)
     current = models.BooleanField(default=False)
+
+class Request(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='emp')
+    leave_date = models.DateTimeField(default=now, blank=True)
+    return_date = models.DateTimeField(default=now, blank=True)
+    status = models.CharField(max_length=20)
