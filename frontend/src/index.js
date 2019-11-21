@@ -7,6 +7,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import EmployeeView from "./components/employee/EmployeeView";
 import LocationView from "./components/location/LocationView";
+import CalendarView from "./components/calendar/CalendarView";
 
 const routing = (
   <Router>

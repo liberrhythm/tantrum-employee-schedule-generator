@@ -53,3 +53,8 @@ class EmployeeAssignment(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='empassign_loc')
     start = models.DateTimeField(default=now, blank=True)
     current = models.BooleanField(default=False)
+
+class Event(models.Model):
+    title = models.CharField(max_length=30)
+    event_start = models.DateTimeField(default=now)
+    event_end = models.DateTimeField(default=now)
