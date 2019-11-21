@@ -23,6 +23,7 @@ router.register(r'employees', views.EmployeeView, 'employee')
 router.register(r'locations', views.LocationView, 'location')
 router.register(r'employee-assignments', views.EmployeeAssignmentView, 'employee-assignment')
 router.register(r'current-schedule', views.CurrentEmployeeAssignmentView, 'current-schedule')
+router.register(r'events', views.EventView, 'event')
 router.register(r'past-schedule', views.PastEmployeeAssignmentView, 'past-schedule')
 router.register(r'requests', views.RequestView, 'request')
 

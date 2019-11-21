@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import EmployeeSerializer, LocationSerializer, EmployeeAssignmentSerializer, RequestSerializer
-from .models import Employee, Location, EmployeeAssignment, Request
+from .serializers import EmployeeSerializer, LocationSerializer, EmployeeAssignmentSerializer, RequestSerializer, EventSerializer
+from .models import Employee, Location, EmployeeAssignment, Request, Event
 
 # Create your views here.
 class EmployeeView(viewsets.ModelViewSet):
@@ -19,6 +19,10 @@ class EmployeeAssignmentView(viewsets.ModelViewSet):
 class CurrentEmployeeAssignmentView(viewsets.ModelViewSet):
     serializer_class = EmployeeAssignmentSerializer
     queryset = EmployeeAssignment.objects.filter(numWeeksSince=0)
+
+class EventView(viewsets.ModelViewSet):
+    serializer_class = EventSerializer
+    queryset = Event.objects.all()
 
 class PastEmployeeAssignmentView(viewsets.ModelViewSet):
     serializer_class = EmployeeAssignmentSerializer

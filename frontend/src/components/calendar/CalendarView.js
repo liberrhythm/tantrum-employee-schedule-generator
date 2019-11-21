@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import {Button} from "reactstrap"
 //import './style.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import NavBar from "../navbar/navbar";
+import axios from "axios";
 
 const localizer = momentLocalizer(moment);
 
-export default class App extends Component {
+class CalendarView extends Component {
   constructor() {
     super();
     const now = new Date();
@@ -73,20 +75,47 @@ export default class App extends Component {
       {
           id: 14,
           title: 'Today',
-          start: new Date(new Date().setHours(new Date().getHours() - 3)),
-          end: new Date(new Date().setHours(new Date().getHours() + 3)),
+          start: new Date(new Date().setHours(new Date().getHours())),
+          end: new Date(new Date().setHours(new Date().getHours())),
       },
     ]
     this.state = {
       name: 'React',
-      events
+      events: [],
+      active_event: {
+        event_date: new Date(), event_start: '00:00:00', event_end: '00:00:00'
+      }
     };
   }
+  
+  componentDidMount() {
+    this.getEvents();
+  }
+
+  createEvent = () => {
+    const eve = { event_date: new Date(), event_start: '00:00:00', event_end: '00:00:00' };
+    this.setState({ active_event: eve, modal: !this.state.modal })
+  };
+
+  getEvents = () => {
+    axios
+      .get("http://localhost:8000/api/events/")
+      .then(res => {
+        console.log(res.data);
+        let events = res.data.map(event => {
+          return { id: event.id, title: event.title, start: new Date(event.event_start), end: new Date(event.event_end) };
+        });
+        console.log(events);
+        this.setState({ events });
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     return (
       <div>
         <NavBar />
+        <Button color="success" onClick={() => this.createEvent()}>Create Event</Button>
         <p>
           
         </p>
@@ -105,5 +134,4 @@ export default class App extends Component {
     );
   }
 }
-
-render(<App />, document.getElementById('root'));
+export default CalendarView;

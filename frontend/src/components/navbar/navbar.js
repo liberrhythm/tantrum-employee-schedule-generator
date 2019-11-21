@@ -17,12 +17,12 @@ const Example = (props) => {
   return (
     <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">Tantrum Sunless Tanning Scheduler</NavbarBrand>
+        <NavbarBrand href="/managerView">Tantrum Sunless Tanning Scheduler</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
           <NavItem>
-              <NavLink href="/">Home</NavLink>
+              <NavLink href="/managerView">Home</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/employee">Employees</NavLink>
@@ -38,6 +38,9 @@ const Example = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/requests">Request Days Off</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/logout">Logout</NavLink>
             </NavItem>
           </Nav>
         </Collapse>

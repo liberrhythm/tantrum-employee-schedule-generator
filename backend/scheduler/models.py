@@ -56,6 +56,11 @@ class EmployeeAssignment(models.Model):
     start = models.DateTimeField(default=now, blank=True)
     numWeeksSince = models.IntegerField(default=0)
 
+class Event(models.Model):
+    title = models.CharField(max_length=30)
+    event_start = models.DateTimeField(default=now, blank=True)
+    event_end = models.DateTimeField(default=now, blank=True)
+
 class Request(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='emp')
     leave_date = models.DateTimeField(default=now, blank=True)

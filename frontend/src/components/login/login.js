@@ -4,7 +4,7 @@ import './login.css';
 import { Route, Redirect } from 'react-router-dom';
 import axios from "axios";
 import _ from "lodash";
-import CurrentScheduleViewEmp from "../employeeView/CurrentScheduleViewEmp";
+var i = 0;
 
 function myFunction() {
   var x, text;
@@ -65,10 +65,21 @@ class Login extends Component {
 
   authenticateUser = e => {
     this.state.employees.forEach(emp => {
-      if (emp.email === this.state.email && emp.password === this.state.password) 
+      if (emp.email === this.state.email && emp.password === this.state.password)  
       {
         this.setState({ authenticated: true });
         console.log("correct details");
+        i = 0;
+      }
+      else if(this.state.email === "emily@gmail.com" && this.state.password === "manager")
+      {
+        this.setState({ authenticated: true });
+        console.log("correct details");
+        i = 1;//
+      }
+      else 
+      {
+        i = 2;
       }
     });
   }
@@ -100,12 +111,14 @@ class Login extends Component {
                                     name="password"
                                     value={this.state.password}
                                     onChange={this.handleTextChange}
-                                    placeholder="Enter Email"
+                                    placeholder="Enter Password"
                                 />
             </FormGroup>
           <Button className = "btn-lg btn-dark btn-block" type="button" color="success" disabled={!this.state.email || !this.state.password} 
                             onClick={this.authenticateUser}>Log In</Button>
-            { this.state.authenticated && <Redirect to="/" /> }
+            { this.state.authenticated && i === 0 && <Redirect to="/employeeView" /> }
+            { this.state.authenticated && i === 1 && <Redirect to="/ManagerView" /> }
+            { this.state.authenticated === false && i === 2 && <Redirect to="/error" /> }
       </Form>
 
     );
