@@ -28,6 +28,8 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=30)
     primary_location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='emp_primary_loc')
     secondary_location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='emp_secondary_loc')
+    email = models.CharField(max_length=30, default='joe@gmail.com')
+    password = models.CharField(max_length=30, default='password')
     color = models.CharField(max_length=7)
     monday_start = models.TimeField(default='00:00:00')
     monday_end = models.TimeField(default='00:00:00')
@@ -52,9 +54,15 @@ class EmployeeAssignment(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='empassign_emp')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='empassign_loc')
     start = models.DateTimeField(default=now, blank=True)
-    current = models.BooleanField(default=False)
+    numWeeksSince = models.IntegerField(default=0)
 
 class Event(models.Model):
     title = models.CharField(max_length=30)
-    event_start = models.DateTimeField(default=now)
-    event_end = models.DateTimeField(default=now)
+    event_start = models.DateTimeField(default=now, blank=True)
+    event_end = models.DateTimeField(default=now, blank=True)
+
+class Request(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='emp')
+    leave_date = models.DateTimeField(default=now, blank=True)
+    return_date = models.DateTimeField(default=now, blank=True)
+    status = models.CharField(max_length=20)

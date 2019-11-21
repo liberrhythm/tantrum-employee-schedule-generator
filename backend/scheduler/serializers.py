@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Employee, Location, EmployeeAssignment, Event
+from .models import Employee, Location, EmployeeAssignment, Request, Event
 import logging
 logger = logging.getLogger()
 
@@ -42,3 +42,14 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'      
+
+class RequestSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    emp = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Request
+        fields = '__all__'
+
+    def get_emp(self, obj):
+        return EmployeeSerializer(obj.employee).data 

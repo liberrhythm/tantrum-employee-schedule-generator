@@ -163,7 +163,7 @@ class CurrentScheduleView extends Component {
           employee: daySchedule[time],
           location,
           start: formattedDay + " " + time,
-          current: true
+          numWeeksSince: 0
         };
         
         requests.push(axios.post("http://localhost:8000/api/employee-assignments/", empAssign).catch(err => console.log(err)));
