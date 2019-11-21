@@ -106,7 +106,6 @@ class Login extends Component {
           <Button className = "btn-lg btn-dark btn-block" type="button" color="success" disabled={!this.state.email || !this.state.password} 
                             onClick={this.authenticateUser}>Log In</Button>
             { this.state.authenticated && <Redirect to="/" /> }
-          
       </Form>
 
     );

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Employee, Location, EmployeeAssignment
+from .models import Employee, Location, EmployeeAssignment, Request
 import logging
 logger = logging.getLogger()
 
@@ -36,4 +36,15 @@ class EmployeeAssignmentSerializer(serializers.ModelSerializer):
         return EmployeeSerializer(obj.employee).data
 
     def get_loc(self, obj):
-        return LocationSerializer(obj.location).data             
+        return LocationSerializer(obj.location).data
+
+class RequestSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    emp = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Request
+        fields = '__all__'
+
+    def get_emp(self, obj):
+        return EmployeeSerializer(obj.employee).data 
