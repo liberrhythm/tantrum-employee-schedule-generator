@@ -81,6 +81,28 @@ export default class CustomModal extends Component {
                         </div>
                         <div className="modal_row_1">
                             <FormGroup>
+                                <Label for="email">Email</Label>
+                                <Input
+                                    type="text"
+                                    name="email"
+                                    value={this.state.activeEmp.email}
+                                    onChange={this.handleTextChange}
+                                    placeholder="Enter Email"
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="password">Password</Label>
+                                <Input
+                                    type="text"
+                                    name="password"
+                                    value={this.state.activeEmp.password}
+                                    onChange={this.handleTextChange}
+                                    placeholder="Enter Password"
+                                />
+                            </FormGroup>
+                        </div>
+                        <div className="modal_row_1">
+                            <FormGroup>
                                 <Label for="primary-location">Primary Location</Label>
                                 <Input type="select" name="primary_location" id="ploc-select"
                                     value={this.state.activeEmp.primary_location}

@@ -4,6 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 //import './style.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import NavBar from "../navbar/navbar";
 
 const localizer = momentLocalizer(moment);
 
@@ -85,6 +86,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
+        <NavBar />
         <p>
           
         </p>

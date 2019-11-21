@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import CurrentScheduleView from "./components/schedule/CurrentScheduleView";
-import NavBar from "./components/navbar/navbar";
+import Login from "./components/login/login";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <CurrentScheduleView />
+        <Login />
       </>
     );
   }
