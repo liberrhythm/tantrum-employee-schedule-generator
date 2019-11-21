@@ -26,6 +26,7 @@ const routing = (
         <Route path="/requests" component={RequestsView} />
         <Route path="/calendar" component={CalendarView} />
         <Route path="/past-schedules" component={PastSchedulesView} />
+        <Route path="/logout" component={App} />
       </Switch>
     </div>
   </Router>
