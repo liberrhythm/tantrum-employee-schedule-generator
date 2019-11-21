@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
-import Schedule from "./Schedule";
-import Legend from "./Legend";
+import Schedule from "./ScheduleEmp";
+import Legend from "./LegendEmp";
 import classnames from 'classnames';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import moment from "moment";
-import "./CurrentScheduleView.css";
+import "./CurrentScheduleViewEmp.css";
 import NavBar from "../navbar/navbar";
 
 class CurrentScheduleView extends Component {
@@ -245,9 +245,6 @@ class CurrentScheduleView extends Component {
     const { locations } = this.state;
     return _.map(locations, (loc, key) => (
       <TabPane tabId={`${key + 1}`}>
-        <Button disabled={(this.state.schedules[loc.id-1] && this.state.schedules[loc.id-1].length > 0) || this.state.loading } 
-                color="success" style={{ marginTop: '0.5rem' }} onClick={() => this.generateSchedule(key)}>Generate Schedule</Button>
-        <Button color="info" style={{ marginTop: '0.5rem' }} onClick={() => this.saveSchedule(key)}>Save Schedule</Button>
         { this.state.schedules.length === 0 && <h5 style={{ margin: '0.5rem' }}>Loading Current Schedule...</h5> }
         { this.state.schedules.length > 0 && <Schedule schedule={this.state.schedules[key]} location={this.state.locations[key]} currentWeek={this.state.currentWeek}></Schedule> }
       </TabPane>
@@ -257,7 +254,6 @@ class CurrentScheduleView extends Component {
   render() {
     return (
       <main className="content">
-        <NavBar />
         <h1 className="text-center my-4">Current Schedule</h1>
         <div className="row">
           <div className="col-md-2 col-sm-2 mx-auto p-0">

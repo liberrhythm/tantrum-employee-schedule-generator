@@ -4,6 +4,7 @@ import axios from "axios";
 import _ from "lodash";
 import { Button } from "reactstrap";
 import moment from "moment";
+import NavBar from "../navbar/navbar";
 
 class LocationView extends Component {
   constructor(props) {
@@ -115,6 +116,7 @@ class LocationView extends Component {
   render() {
     return (
       <main className="content">
+        <NavBar />
         <h1 className="text-center my-4">Location Hours of Operations</h1>
         <div className="row">
           <div className="col-md-10 col-sm-10 mx-auto p-0">

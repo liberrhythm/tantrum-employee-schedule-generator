@@ -28,6 +28,8 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=30)
     primary_location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='emp_primary_loc')
     secondary_location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='emp_secondary_loc')
+    email = models.CharField(max_length=30, default='joe@gmail.com')
+    password = models.CharField(max_length=30, default='password')
     color = models.CharField(max_length=7)
     monday_start = models.TimeField(default='00:00:00')
     monday_end = models.TimeField(default='00:00:00')

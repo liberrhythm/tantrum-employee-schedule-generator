@@ -3,6 +3,9 @@ import EmployeeModal from "./EmployeeModal";
 import axios from "axios";
 import _ from "lodash";
 import { Button } from "reactstrap";
+import NavBar from "../navbar/navbar";
+
+
 
 class EmployeeView extends Component {
   constructor(props) {
@@ -109,6 +112,7 @@ class EmployeeView extends Component {
   render() {
     return (
       <main className="content">
+        <NavBar />
         <h1 className="text-center my-4">Employees</h1>
         <div className="row">
           <div className="col-md-8 col-sm-10 mx-auto p-0">
