@@ -17,7 +17,7 @@ const Example = (props) => {
   return (
     <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">Tantrum Sunless Tanning Scheduler</NavbarBrand>
+        <NavbarBrand href="/managerView">Tantrum Sunless Tanning Scheduler</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>

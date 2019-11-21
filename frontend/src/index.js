@@ -10,7 +10,7 @@ import LocationView from "./components/location/LocationView";
 import PastSchedulesView from "./components/schedule/PastSchedulesView";
 import RequestsView from "./components/requests/RequestsView";
 import CalendarView from "./components/calendar/CalendarView";
-import Login from './components/login/login';
+import LoginError from './components/login/loginError';
 import CurrentScheduleViewEmp from './components/employeeView/CurrentScheduleViewEmp';
 import CurrentScheduleView from './components/schedule/CurrentScheduleView';
 
@@ -27,6 +27,7 @@ const routing = (
         <Route path="/calendar" component={CalendarView} />
         <Route path="/past-schedules" component={PastSchedulesView} />
         <Route path="/logout" component={App} />
+        <Route path="/error" component={LoginError} />
       </Switch>
     </div>
   </Router>

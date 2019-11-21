@@ -79,6 +79,7 @@ class Login extends Component {
       }
       else 
       {
+        this.setState({ authenticated: true });
         i = 2;
       }
     });
@@ -118,7 +119,9 @@ class Login extends Component {
                             onClick={this.authenticateUser}>Log In</Button>
             { this.state.authenticated && i === 0 && <Redirect to="/employeeView" /> }
             { this.state.authenticated && i === 1 && <Redirect to="/ManagerView" /> }
-            { this.state.authenticated === false && i === 2 && <Redirect to="/error" /> }
+            { this.state.authenticated && i === 2 && <Redirect to="/error" /> }
+
+            <h2 className = "text-center" font color="red">Invalid Username or Password. Please Try Agian!</h2>
       </Form>
 
     );
