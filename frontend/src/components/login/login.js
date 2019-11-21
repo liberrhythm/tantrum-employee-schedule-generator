@@ -76,7 +76,7 @@ class Login extends Component {
               <Input
                                     type="text"
                                     name="email"
-                                    value={this.state.activeEmp.email}
+                                    value={this.state.email}
                                     onChange={this.handleTextChange}
                                     placeholder="Enter Email"
                                 />
@@ -85,13 +85,13 @@ class Login extends Component {
             <Label>Password</Label>
             <Input
                                     type="text"
-                                    name="email"
-                                    value={this.state.activeEmp.password}
+                                    name="password"
+                                    value={this.state.password}
                                     onChange={this.handleTextChange}
                                     placeholder="Enter Email"
                                 />
             </FormGroup>
-          <Button className = "btn-lg btn-dark btn-block" type="button" color="success" disabled={!this.state.activeEmp.email || !this.state.activeEmp.password} 
+          <Button className = "btn-lg btn-dark btn-block" type="button" color="success" disabled={!this.state.email || !this.state.password} 
                             onClick={() => onSave(this.state.activeEmp)}>Log In</Button>
           
       </Form>

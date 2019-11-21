@@ -4,6 +4,7 @@ import axios from "axios";
 import _ from "lodash";
 import { Button } from "reactstrap";
 import moment from "moment";
+import NavBar from "../navbar/navbar";
 
 class RequestsView extends Component {
   constructor(props) {
@@ -130,6 +131,7 @@ class RequestsView extends Component {
   render() {
     return (
       <main className="content">
+        <NavBar />
         <h1 className="text-center my-4">Requested Days Off</h1>
         <div className="row">
           <div className="col-md-8 col-sm-10 mx-auto p-0">
