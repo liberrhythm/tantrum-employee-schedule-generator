@@ -1,27 +1,26 @@
 import React, { Component } from "react";
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import './login.css';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from "axios";
-import _ from "lodash";
 var i = 0;
 
-function myFunction() {
-  var x, text;
+// function myFunction() {
+//   var x, text;
 
-  var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+//   var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
 
-  // Get the value of the input field with id="numb"
-  x = document.getElementById("numb").value;
+//   // Get the value of the input field with id="numb"
+//   x = document.getElementById("numb").value;
 
-  // If x is Not a Number or less than one or greater than 10
-  if (!isValidZip.test(x)) {
-      text = "Input not valid";
-  } else {
-      text = "Input OK";
-  }
-  document.getElementById("demo").innerHTML = text;
-}
+//   // If x is Not a Number or less than one or greater than 10
+//   if (!isValidZip.test(x)) {
+//       text = "Input not valid";
+//   } else {
+//       text = "Input OK";
+//   }
+//   document.getElementById("demo").innerHTML = text;
+// }
 
 class Login extends Component {
   constructor(props) {
@@ -85,7 +84,6 @@ class Login extends Component {
   }
 
   render() {
-    const { toggle, onSave } = this.props;
     return (
       <Form className ="login-form">
           <br></br>

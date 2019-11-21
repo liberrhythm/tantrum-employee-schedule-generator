@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment";
 import _ from "lodash";
+import ScheduleEditorModal from "./ScheduleEditorModal";
+import axios from "axios";
+
 // this file should define how a Schedule component should be rendered
 
 class Schedule extends Component {
@@ -14,13 +17,44 @@ class Schedule extends Component {
             closed: [],
             days: ["monday", "tue", "wed", "thu", "fri", "sat", "sun"],
             formattedDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            assignsByTime: {}
+            assignsByTime: {},
+            modal: false,
+            activeEmpAssign: {}
         };
     }
 
     componentDidMount() { 
         this.generateTimes();
     }
+
+    toggle = () => {
+        this.setState({ modal: !this.state.modal });
+    };
+
+    editEmployeeAssignment = empAssign => {
+        if (empAssign) this.setState({ activeEmpAssign: empAssign, modal: !this.state.modal });
+    };
+
+    handleSubmit = empAssign => {
+        this.toggle();
+        if (empAssign.id) {
+          axios
+            .put(`http://localhost:8000/api/employee-assignments/${empAssign.id}/`, empAssign)
+            .then(res => {
+                let newAssign = res.data;
+                let { assignsByTime } = this.state;
+                let timeKey = empAssign.start.substr(11, 8);
+                let timeArr = assignsByTime[timeKey];
+                let newArr = [];
+                timeArr.forEach(assign => {
+                    if (assign.start === newAssign.start) newArr.push(newAssign);
+                    else newArr.push(assign);
+                })
+                this.setState({ assignsByTime: {...assignsByTime, [timeKey]: newArr } });
+            });
+            return;
+        }
+    };
 
     generateTimes = () => {
         let times = [];
@@ -98,7 +132,7 @@ class Schedule extends Component {
 
     renderTableData(timeArr) {
         return timeArr.map(assign => (
-            <td style={{ backgroundColor: assign ? assign.emp.color : '#ffffff' }}>
+            <td onClick={() => this.editEmployeeAssignment(assign)} style={{ backgroundColor: assign ? assign.emp.color : '#ffffff' }}>
                 {assign ? assign.emp.first_name : ''}
             </td>
         ));
@@ -117,17 +151,26 @@ class Schedule extends Component {
 
     render() {
         return (
-            <table className="table table-bordered" style={{ margin: '1rem 0rem'}}>
-                <thead className="thead-dark">
-                    <tr>
-                        <th scope="col">Time</th>
-                        {this.renderTableHeader()}
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.renderTableRows()}
-                </tbody>
-            </table>
+            <div>
+                <table className="table table-bordered" style={{ margin: '1rem 0rem' }}>
+                    <thead className="thead-dark">
+                        <tr>
+                            <th scope="col">Time</th>
+                            {this.renderTableHeader()}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderTableRows()}
+                    </tbody>
+                </table>
+                {this.state.modal ? (
+                    <ScheduleEditorModal
+                        activeEmpAssign={this.state.activeEmpAssign}
+                        toggle={this.toggle}
+                        onSave={this.handleSubmit}
+                    />
+                ) : null}
+            </div>
         );
     }
 }

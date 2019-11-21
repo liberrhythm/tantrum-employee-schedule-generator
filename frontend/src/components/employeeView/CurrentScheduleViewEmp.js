@@ -4,7 +4,7 @@ import _ from "lodash";
 import Schedule from "./ScheduleEmp";
 import Legend from "./LegendEmp";
 import classnames from 'classnames';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import moment from "moment";
 import "./CurrentScheduleViewEmp.css";
 import NavBarEmp from "../navbar/navbarEmployeeView";

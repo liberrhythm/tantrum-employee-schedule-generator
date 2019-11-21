@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import CurrentScheduleViewEmp from "./components/employeeView/CurrentScheduleViewEmp";
 import Login from "./components/login/login";
 
 class App extends Component {

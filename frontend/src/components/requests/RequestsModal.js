@@ -12,9 +12,7 @@ import {
 } from "reactstrap";
 
 import DatePicker from 'react-date-picker';
-import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
-import moment from "moment";
 import './RequestsModal.css';
 
 export default class CustomModal extends Component {
