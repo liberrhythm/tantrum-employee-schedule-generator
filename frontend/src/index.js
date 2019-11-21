@@ -10,13 +10,16 @@ import LocationView from "./components/location/LocationView";
 import RequestsView from "./components/requests/RequestsView";
 import CalendarView from "./components/calendar/CalendarView";
 import Login from './components/login/login';
+import CurrentScheduleViewEmp from './components/employeeView/CurrentScheduleViewEmp';
+import CurrentScheduleView from './components/schedule/CurrentScheduleView';
 
 const routing = (
   <Router>
     <div>
       <Switch>
         <Route exact path="/" component={App} />
-        <Route path="/login" component={Login} />
+        <Route path="/employeeView" component={CurrentScheduleViewEmp} />
+        <Route path="/managerView" component={CurrentScheduleView} />
         <Route path="/employee" component={EmployeeView} />
         <Route path="/location" component={LocationView} />
         <Route path="/requests" component={RequestsView} />

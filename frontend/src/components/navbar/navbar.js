@@ -22,7 +22,7 @@ const Example = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
           <NavItem>
-              <NavLink href="/">Home</NavLink>
+              <NavLink href="/managerView">Home</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/employee">Employees</NavLink>
