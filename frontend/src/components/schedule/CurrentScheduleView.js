@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import moment from "moment";
 import "./CurrentScheduleView.css";
+import NavBar from "../navbar/navbar";
 
 class CurrentScheduleView extends Component {
   constructor(props) {
@@ -256,6 +257,7 @@ class CurrentScheduleView extends Component {
   render() {
     return (
       <main className="content">
+        <NavBar />
         <h1 className="text-center my-4">Current Schedule</h1>
         <div className="row">
           <div className="col-md-2 col-sm-2 mx-auto p-0">
