@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import CurrentScheduleView from "./components/schedule/CurrentScheduleView";
-import NavBar from "./components/navbar/navbar";
+import CurrentScheduleView from "./components/employeeView/CurrentScheduleViewEmp";
 
 class App extends Component {
   constructor(props) {

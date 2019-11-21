@@ -7,16 +7,20 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import EmployeeView from "./components/employee/EmployeeView";
 import LocationView from "./components/location/LocationView";
-import CalendarView from "./components/calendar/CalendarView";
 import PastSchedulesView from "./components/schedule/PastSchedulesView";
+import RequestsView from "./components/requests/RequestsView";
+import CalendarView from "./components/calendar/CalendarView";
+import Login from './components/login/login';
 
 const routing = (
   <Router>
     <div>
       <Switch>
         <Route exact path="/" component={App} />
+        <Route path="/login" component={Login} />
         <Route path="/employee" component={EmployeeView} />
         <Route path="/location" component={LocationView} />
+        <Route path="/requests" component={RequestsView} />
         <Route path="/calendar" component={CalendarView} />
         <Route path="/past-schedules" component={PastSchedulesView} />
       </Switch>
