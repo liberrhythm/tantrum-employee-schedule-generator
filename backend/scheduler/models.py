@@ -52,4 +52,4 @@ class EmployeeAssignment(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='empassign_emp')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='empassign_loc')
     start = models.DateTimeField(default=now, blank=True)
-    current = models.BooleanField(default=False)
+    numWeeksSince = models.IntegerField(default=0)

@@ -33,6 +33,9 @@ const Example = (props) => {
             <NavItem>
               <NavLink href="/calendar">Calendar</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink href="/past-schedules">Past Schedules</NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

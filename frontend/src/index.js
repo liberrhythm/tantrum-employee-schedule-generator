@@ -7,6 +7,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import EmployeeView from "./components/employee/EmployeeView";
 import LocationView from "./components/location/LocationView";
+import CalendarView from "./components/calendar/CalendarView";
+import PastSchedulesView from "./components/schedule/PastSchedulesView";
 
 const routing = (
   <Router>
@@ -16,6 +18,7 @@ const routing = (
         <Route path="/employee" component={EmployeeView} />
         <Route path="/location" component={LocationView} />
         <Route path="/calendar" component={CalendarView} />
+        <Route path="/past-schedules" component={PastSchedulesView} />
       </Switch>
     </div>
   </Router>
