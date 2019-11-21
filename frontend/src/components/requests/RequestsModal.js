@@ -47,7 +47,8 @@ export default class CustomModal extends Component {
                                 <Label for="employee">Employee</Label>
                                 <Input type="select" name="employee" id="emp-select"
                                     value={this.state.activeReq.employee}
-                                    onChange={this.handleSelectChange}>
+                                    onChange={this.handleSelectChange}
+                                    placeholder = "Employee">
                                     {this.props.employees.map((emp, key) => {
                                         return (
                                             <option key={key} value={emp.id}>{emp.first_name} {emp.last_name}</option>
@@ -63,7 +64,7 @@ export default class CustomModal extends Component {
                                 <div>
                                     <DatePicker
                                     onChange={(val) => this.handleDateChange(val, "leave_date")}
-                                    value={this.state.date}
+                                    value={this.state.activeReq.leave_date}
                                     />
                                 </div>
                             </FormGroup>
@@ -74,7 +75,7 @@ export default class CustomModal extends Component {
                                 <div>
                                     <DatePicker
                                     onChange={(val) => this.handleDateChange(val, "return_date")}
-                                    value={this.state.date}
+                                    value={this.state.activeReq.return_date}
                                     />
                                 </div>
                             </FormGroup>
