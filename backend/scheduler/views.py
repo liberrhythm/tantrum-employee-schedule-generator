@@ -18,7 +18,15 @@ class EmployeeAssignmentView(viewsets.ModelViewSet):
 
 class CurrentEmployeeAssignmentView(viewsets.ModelViewSet):
     serializer_class = EmployeeAssignmentSerializer
-    queryset = EmployeeAssignment.objects.filter(current=True)
+    queryset = EmployeeAssignment.objects.filter(numWeeksSince=0)
+
+class PastEmployeeAssignmentView(viewsets.ModelViewSet):
+    serializer_class = EmployeeAssignmentSerializer
+
+    def get_queryset(self):
+        week = self.request.query_params.get('numWeeksSince')
+        queryset = EmployeeAssignment.objects.filter(numWeeksSince=week).order_by('start')
+        return queryset
 
 class RequestView(viewsets.ModelViewSet):
     serializer_class = RequestSerializer
