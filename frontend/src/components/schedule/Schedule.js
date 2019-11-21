@@ -47,7 +47,8 @@ class Schedule extends Component {
                 let timeArr = assignsByTime[timeKey];
                 let newArr = [];
                 timeArr.forEach(assign => {
-                    if (assign.start === newAssign.start) newArr.push(newAssign);
+                    if(assign != null)
+                        if (assign.start === newAssign.start) newArr.push(newAssign);
                     else newArr.push(assign);
                 })
                 this.setState({ assignsByTime: {...assignsByTime, [timeKey]: newArr } });

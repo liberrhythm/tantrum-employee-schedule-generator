@@ -9,7 +9,8 @@ import NavBar from "../navbar/navbar";
 class RequestsView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    
+  this.state = {
       viewCompleted: false,
       activeReq: {
         employee: 0,
@@ -19,7 +20,13 @@ class RequestsView extends Component {
       },
       employees: [],
       locations: [],
-      modal: false
+      modal: false,
+      event:{
+        title: '',
+        event_start: new Date(),
+        event_end: new Date(),
+        desc: ''
+    }
     };
   }
 
@@ -77,6 +84,19 @@ class RequestsView extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
+  getEvents = () => {
+    axios
+      .get("http://localhost:8000/api/events/")
+      .then(res => {
+        console.log(res.data);
+        let events = res.data.map(event => {
+          return { id: event.id, title: event.title, start: new Date(event.event_start), end: new Date(event.event_end) };
+        });
+        console.log(events);
+        this.setState({ events });
+      })
+      .catch(err => console.log(err));
+  };
   
   handleSubmit = req => {
     this.toggle();
@@ -108,9 +128,23 @@ class RequestsView extends Component {
     this.setState({ activeReq: req, modal: !this.state.modal });
   };
 
+  submitTimeOff = (req) => {
+    let {event} = this.state
+    event.id = req.id
+    event.event_start = req.leave_date
+    event.event_end = req.return_date
+    event.title = req.emp.first_name + " " + req.emp.last_name
+    console.log(event)
+    axios
+      .post("http://localhost:8000/api/events/", event)
+      .then(res => this.getEvents());
+    
+  };
+
   approveReq = req => {
     req.status = "Approved";
     this.updateRequest(req);
+    this.submitTimeOff(req);
   };
 
   denyReq = req => {
