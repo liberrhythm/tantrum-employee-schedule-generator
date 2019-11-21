@@ -7,11 +7,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import EmployeeView from "./components/employee/EmployeeView";
 import LocationView from "./components/location/LocationView";
-import NavBar from "./navbar"
 
 const routing = (
   <Router>
-    <NavBar />
     <div>
       <Switch>
         <Route exact path="/" component={App} />
